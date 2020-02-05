@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import ler.robot.RobotMap;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
   
 
   /*
@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Creates a new DriveSubsystem.
    */
-  public DriveSubsystem() {
+  public Drivetrain() {
     // Sets the distance per pulse for the encoders
     /*
     m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
@@ -49,8 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Drives the robot using arcade controls.
    *
-   * @param fwd the commanded forward movement
-   * @param rot the commanded rotation
+   * @param left the commanded forward movement
+   * @param right the commanded rotation
    */
   public void tankDrive(double left, double right) {
     //slow it down
@@ -58,8 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
     right *= 0.25;
     System.out.println(left);
     System.out.println(right);
-    RobotMap.m_leftMotors.set(left);
-    RobotMap.m_rightMotors.set(right);
+    RobotMap.leftMotor1.set(left);
+    RobotMap.rightMotor1.set(right);
   }
 
   /**

@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import ler.robot.RobotMap;
 import ler.robot.commands.DefaultDrive;
+import ler.robot.commands.DefaultShooter;
 import ler.robot.commands.HalveDriveSpeed;
-import ler.robot.subsystems.DriveSubsystem;
+import ler.robot.subsystems.Drivetrain;
+import ler.robot.subsystems.Shooter;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -29,7 +31,9 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final Shooter shooter = new Shooter();
+
+  private final Drivetrain drivetrain = new Drivetrain();
 
   // The autonomous routines
 
@@ -44,56 +48,40 @@ public class RobotContainer {
   //private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
 
   // A chooser for autonomous commands
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-  // The driver's controller
-  XboxController m_driverController = new XboxController(RobotMap.OIConstants.kDriverControllerPort);
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    Robot.oi.init(drivetrain);
 
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
-    m_robotDrive.setDefaultCommand(
+
+    //default shooter commands
+    shooter.setDefaultCommand(
+      new DefaultShooter(
+          shooter,
+          () -> Robot.oi.driverController.getXButton(),
+          () -> Robot.oi.driverController.getAButtonReleased(),
+          () -> Robot.oi.driverController.getYButtonReleased()));
+    drivetrain.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
         new DefaultDrive(
-            m_robotDrive,
-            () -> m_driverController.getY(GenericHID.Hand.kLeft),
-            () -> m_driverController.getY(GenericHID.Hand.kRight)));
+            drivetrain,
+            () -> Robot.oi.driverController.getY(GenericHID.Hand.kLeft),
+            () -> Robot.oi.driverController.getY(GenericHID.Hand.kRight)));
 
     // Add commands to the autonomous command chooser
     //m_chooser.addOption("Simple Auto", m_simpleAuto);
     //m_chooser.addOption("Complex Auto", m_complexAuto);
 
     // Put the chooser on the dashboard
-    Shuffleboard.getTab("Autonomous").add(m_chooser);
+    Shuffleboard.getTab("Autonomous").add(autoChooser);
   }
-
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    /*
-    // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new GrabHatch(m_hatchSubsystem));
-    // Release the hatch when the 'B' button is pressed.
-    new JoystickButton(m_driverController, Button.kB.value)
-        .whenPressed(new ReleaseHatch(m_hatchSubsystem));
-    */
-    // While holding the shoulder button, drive at half speed
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whenHeld(new HalveDriveSpeed(m_robotDrive));
-  }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -101,6 +89,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

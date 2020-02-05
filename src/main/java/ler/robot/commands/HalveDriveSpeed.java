@@ -9,22 +9,22 @@ package ler.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import ler.robot.subsystems.DriveSubsystem;
+import ler.robot.subsystems.Drivetrain;
 
 public class HalveDriveSpeed extends CommandBase {
-  private final DriveSubsystem m_drive;
+  private final Drivetrain drivetrain;
 
-  public HalveDriveSpeed(DriveSubsystem drive) {
-    m_drive = drive;
+  public HalveDriveSpeed(Drivetrain drive) {
+    drivetrain = drive;
   }
 
   @Override
   public void initialize() {
-    m_drive.setMaxOutput(0.5);
+    drivetrain.setMaxOutput(0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.setMaxOutput(1);
+    drivetrain.setMaxOutput(1);
   }
 }

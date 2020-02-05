@@ -11,7 +11,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import ler.robot.subsystems.DriveSubsystem;
+import ler.robot.subsystems.Drivetrain;
 
 /**
  * A command to drive the robot with joystick input (passed in as {@link DoubleSupplier}s). Written
@@ -19,9 +19,9 @@ import ler.robot.subsystems.DriveSubsystem;
  * edu.wpi.first.wpilibj2.command.RunCommand}.
  */
 public class DefaultDrive extends CommandBase {
-  private final DriveSubsystem m_drive;
-  private final DoubleSupplier m_left;
-  private final DoubleSupplier m_right;
+  private final Drivetrain drivetrain;
+  private final DoubleSupplier left;
+  private final DoubleSupplier right;
 
   /**
    * Creates a new DefaultDrive.
@@ -30,15 +30,15 @@ public class DefaultDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public DefaultDrive(DriveSubsystem subsystem, DoubleSupplier left, DoubleSupplier right) {
-    m_drive = subsystem;
-    m_left = left;
-    m_right = right;
-    addRequirements(m_drive);
+  public DefaultDrive(Drivetrain subsystem, DoubleSupplier left, DoubleSupplier right) {
+    drivetrain = subsystem;
+    this.left = left;
+    this.right = right;
+    addRequirements(drivetrain);
   }
 
   @Override
   public void execute() {
-    m_drive.tankDrive(m_left.getAsDouble(), m_right.getAsDouble());
+    drivetrain.tankDrive(left.getAsDouble(), right.getAsDouble());
   }
 }
