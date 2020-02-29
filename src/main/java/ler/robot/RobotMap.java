@@ -55,6 +55,7 @@ public final class RobotMap {
   //encoders
   //TODO: these might not be neccesary, since our motors use neos which already have encoders. So I might be able to remove these later
   // The left-side drive encoder
+  /*
   public static final Encoder leftEncoders =
       new Encoder(
         DriveConstants.kLeftEncoderPorts[0], 
@@ -69,6 +70,7 @@ public final class RobotMap {
         DriveConstants.kRightEncoderPorts[1], 
         DriveConstants.kRightEncoderPorts[2],
         DriveConstants.kRightEncoderReversed);
+        */
 
   // The talons on the shooter
   public static final CANSparkMax shooterTopSpark = new CANSparkMax(Mappings.SHOOTER_TOP_SPARK, MotorType.kBrushless);

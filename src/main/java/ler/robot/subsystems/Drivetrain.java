@@ -41,8 +41,19 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     // Sets the distance per pulse for the encoders
     
+    /*
     RobotMap.leftEncoders.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     RobotMap.rightEncoders.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
+    */
+
+    RobotMap.leftDriveSpark1.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+    RobotMap.leftDriveSpark2.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+    RobotMap.leftDriveSpark3.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+
+    RobotMap.rightDriveSpark1.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+    RobotMap.rightDriveSpark2.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+    RobotMap.rightDriveSpark3.getEncoder().setPositionConversionFactor(DriveConstants.kEncoderDistancePerPulse);
+    
     
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
@@ -52,8 +63,8 @@ public class Drivetrain extends SubsystemBase {
     // Update the odometry in the periodic block
     odometry.update(
       Rotation2d.fromDegrees(getHeading()), 
-      RobotMap.leftEncoders.getDistance(),
-      RobotMap.rightEncoders.getDistance());
+      getLeftAverageEncoderPosition(),
+      getRightAverageEncoderPosition());
   }
 
     /**
@@ -71,7 +82,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(RobotMap.leftEncoders.getRate(), RobotMap.rightEncoders.getRate());
+    return new DifferentialDriveWheelSpeeds(getLeftAverageEncoderVelocity(), getRightAverageEncoderVelocity());
   }
 
     /**
@@ -122,8 +133,8 @@ public class Drivetrain extends SubsystemBase {
       left = right * -1;
       right = tempRight;
     }
-    RobotMap.leftDriveSpark1.set(left);
-    RobotMap.rightDriveSpark1.set(right);
+    RobotMap.leftMotors.set(left);
+    RobotMap.rightMotors.set(right);
   }
 
   /**
@@ -143,8 +154,13 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetEncoders() {
-    RobotMap.leftEncoders.reset();
-    RobotMap.rightEncoders.reset();
+    RobotMap.leftDriveSpark1.getEncoder().setPosition(0);
+    RobotMap.leftDriveSpark2.getEncoder().setPosition(0);
+    RobotMap.leftDriveSpark3.getEncoder().setPosition(0);
+
+    RobotMap.rightDriveSpark1.getEncoder().setPosition(0);
+    RobotMap.rightDriveSpark2.getEncoder().setPosition(0);
+    RobotMap.rightDriveSpark3.getEncoder().setPosition(0);
   }
 
   public void setMaxOutput(double maxOutput) {
@@ -171,5 +187,34 @@ public class Drivetrain extends SubsystemBase {
     return RobotMap.gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
+  //get average encoder positions
+  private double getLeftAverageEncoderPosition() {
+    return (
+      RobotMap.leftDriveSpark1.getEncoder().getPosition() +
+      RobotMap.leftDriveSpark2.getEncoder().getPosition() +
+      RobotMap.leftDriveSpark3.getEncoder().getPosition()) / 3;
+  }
+
+  private double getRightAverageEncoderPosition() {
+    return (
+      RobotMap.rightDriveSpark1.getEncoder().getPosition() +
+      RobotMap.rightDriveSpark2.getEncoder().getPosition() +
+      RobotMap.rightDriveSpark3.getEncoder().getPosition()) / 3;
+  }
+
+  //get average encoder velocities
+  private double getLeftAverageEncoderVelocity() {
+    return (
+      RobotMap.leftDriveSpark1.getEncoder().getVelocity() +
+      RobotMap.leftDriveSpark2.getEncoder().getVelocity() +
+      RobotMap.leftDriveSpark3.getEncoder().getVelocity()) / 3;
+  }
+
+  private double getRightAverageEncoderVelocity() {
+    return (
+      RobotMap.rightDriveSpark1.getEncoder().getVelocity() +
+      RobotMap.rightDriveSpark2.getEncoder().getVelocity() +
+      RobotMap.rightDriveSpark3.getEncoder().getVelocity()) / 3;
+  }
 
 }
