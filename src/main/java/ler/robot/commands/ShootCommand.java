@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Limelight;
 import ler.robot.subsystems.Shooter;
+import ler.robot.Constants.ShooterConstants;
 
 public class ShootCommand extends CommandBase {
   private Shooter shooter;
@@ -42,12 +43,12 @@ public class ShootCommand extends CommandBase {
     double closeness = 250;
     double conveyorSpeed = 0.6;
 
-    System.out.println("Top: " + shooter.getTopSparkSpeed() + "\t" + Shooter.SHOOTER_TOP_TARGET_SPEED + "\t" + (shooter.getTopSparkSpeed()-Shooter.SHOOTER_TOP_TARGET_SPEED));
-    System.out.println("Bottom: " + shooter.getBottomSparkSpeed() + "\t" + Shooter.SHOOTER_BOTTOM_TARGET_SPEED + "\t" + (shooter.getBottomSparkSpeed()-Shooter.SHOOTER_BOTTOM_TARGET_SPEED));
+    System.out.println("Top: " + shooter.getTopSparkSpeed() + "\t" + ShooterConstants.SHOOTER_TOP_TARGET_SPEED + "\t" + (shooter.getTopSparkSpeed()-ShooterConstants.SHOOTER_TOP_TARGET_SPEED));
+    System.out.println("Bottom: " + shooter.getBottomSparkSpeed() + "\t" + ShooterConstants.SHOOTER_BOTTOM_TARGET_SPEED + "\t" + (shooter.getBottomSparkSpeed()-ShooterConstants.SHOOTER_BOTTOM_TARGET_SPEED));
 
 
-    if(Math.abs(shooter.getTopSparkSpeed() - Shooter.SHOOTER_TOP_TARGET_SPEED)< closeness && 
-       Math.abs(shooter.getBottomSparkSpeed()- Shooter.SHOOTER_BOTTOM_TARGET_SPEED)< closeness &&
+    if(Math.abs(shooter.getTopSparkSpeed() - ShooterConstants.SHOOTER_TOP_TARGET_SPEED)< closeness && 
+       Math.abs(shooter.getBottomSparkSpeed()- ShooterConstants.SHOOTER_BOTTOM_TARGET_SPEED)< closeness &&
        System.currentTimeMillis()>= shooter.spoolTime) {
       
       conveyor.setConveyorSpeed(conveyorSpeed);

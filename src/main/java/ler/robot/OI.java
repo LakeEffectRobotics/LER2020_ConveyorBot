@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import ler.robot.Constants;
+import ler.robot.Constants.OIConstants;
+import ler.robot.Constants.OIConstants.ButtonMappings;
 import ler.robot.commands.*;
 
 
@@ -19,33 +23,11 @@ import ler.robot.commands.*;
  * Operator Interface, used to map buttons with the controllers
  */
 public class OI {
-
-    public static final int LEFT_DRIVER_JOYSTICK = 0;
-    public static final int RIGHT_DRIVER_JOYSTICK = 1;
-    public static final int OPERATOR_CONTROLLER_PORT = 2;
-    //public static final int DRIVER_CONTROLLER_PORT = 1;
-    
-    public static final class ButtonMappings {
-
-        public static final int HALF_SPEED_BUTTON = 2;
-        public static final int INVERT_CONTROLS_BUTTON = 1;
-        public static final int LIMELIGHT_AIM_BUTTON = 2;
-
-        public static final int INTAKE_BUTTON = Button.kB.value;
-
-        public static final int SHOOTER_CONTROL_BUTTON = Button.kBumperRight.value;
-        public static final int SHOOT_BUTTON = Button.kBumperLeft.value; 
-        public static final int SHOOTER_TILT_BUTTON = Button.kBumperLeft.value; 
-
-        
-
-    }
-
     // The driver's controller
     //public XboxController driverController = new XboxController(DRIVER_CONTROLLER_PORT);
-    public Joystick leftDriverJoystick = new Joystick(LEFT_DRIVER_JOYSTICK);
-    public Joystick rightDriverJoystick = new Joystick(RIGHT_DRIVER_JOYSTICK);
-    public XboxController operatorController = new XboxController(OPERATOR_CONTROLLER_PORT);
+    public Joystick leftDriverJoystick = new Joystick(OIConstants.LEFT_DRIVER_JOYSTICK);
+    public Joystick rightDriverJoystick = new Joystick(Constants.OIConstants.RIGHT_DRIVER_JOYSTICK);
+    public XboxController operatorController = new XboxController(OIConstants.OPERATOR_CONTROLLER_PORT);
 
 
     public JoystickButton halfSpeedButton = new JoystickButton(leftDriverJoystick, ButtonMappings.HALF_SPEED_BUTTON);

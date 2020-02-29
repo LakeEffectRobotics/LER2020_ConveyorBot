@@ -13,23 +13,10 @@ import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import ler.robot.Constants.ShooterConstants;
 import ler.robot.RobotMap;
 
 public class Shooter extends SubsystemBase{
-  
-  public static final double kP = 0.000065;
-  public static final double kI = 0.0;
-  public static final double kD = 0.000002;
-  public static final double kF = 0.000090;
-
-  private static final double SPIN_CONSTANT = 0.8;
-
-  public static final double[] SPEEDS = {0, 0.8};
-  public static final int ZEROSPEED = 0;
-  public static final double limelightSpeedScaling = 0.01;
-  public static final double SHOOTER_TARGET_SPEED = 7900;
-  public static final double SHOOTER_TOP_TARGET_SPEED = SHOOTER_TARGET_SPEED;
-  public static final double SHOOTER_BOTTOM_TARGET_SPEED = -SHOOTER_TARGET_SPEED*SPIN_CONSTANT;
 
   public long spoolTime = System.currentTimeMillis();
 
@@ -43,7 +30,7 @@ public class Shooter extends SubsystemBase{
   }
 
   public void setShooterSpeed(int speedArrayPosition){
-    setSpecificShooterSpeed(SPEEDS[speedArrayPosition]);
+    setSpecificShooterSpeed(ShooterConstants.SPEEDS[speedArrayPosition]);
     //currentSpeed = SPEEDS[speedArrayPosition];
   }
 
@@ -58,7 +45,7 @@ public class Shooter extends SubsystemBase{
       //TODO: Debbuging, change to constant when tuned
     RobotMap.shooterTopSpark.getPIDController().setReference((speed), ControlType.kVelocity);
 
-    RobotMap.shooterBottomSpark.getPIDController().setReference(-speed*SPIN_CONSTANT, ControlType.kVelocity);
+    RobotMap.shooterBottomSpark.getPIDController().setReference(-speed*ShooterConstants.SPIN_CONSTANT, ControlType.kVelocity);
     }
   }
 
@@ -73,7 +60,7 @@ public class Shooter extends SubsystemBase{
   //speed should be how far the bot can shoot straight up
   //should be used with getSpeed() from limelight
   public double getVelocityFromLimelight(double speed){
-    return(speed * limelightSpeedScaling);
+    return(speed * ShooterConstants.limelightSpeedScaling);
   }
 
 }

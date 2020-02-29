@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import ler.robot.commands.DefaultDrive;
+import ler.robot.commands.autonomous.AutoCommand;
 //import ler.robot.commands.IntakeCommand;
 import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Drivetrain;
@@ -43,7 +44,7 @@ public class RobotContainer {
   */
 
   // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-  //private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
+  private final Command complexAuto = new AutoCommand();
 
   // A chooser for autonomous commands
   SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -74,7 +75,7 @@ public class RobotContainer {
     */
     // Add commands to the autonomous command chooser
     //m_chooser.addOption("Simple Auto", m_simpleAuto);
-    //m_chooser.addOption("Complex Auto", m_complexAuto);
+    autoChooser.addOption("Complex Auto", complexAuto);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(autoChooser);
