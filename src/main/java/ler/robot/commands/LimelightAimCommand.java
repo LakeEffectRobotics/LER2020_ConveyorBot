@@ -12,14 +12,20 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import ler.robot.subsystems.Drivetrain;
 import ler.robot.subsystems.Limelight;
 
+/**
+ * Command to enable limelight aiming.
+ */
 public class LimelightAimCommand extends CommandBase {
   private Drivetrain drivetrain;
   private Limelight limelight;
 
   //with these values, it gets close to center then quickly jolts back and forth around the midlle
   private PIDController pidController = new PIDController(0.04, 0.05, 0.02);
+  
   /**
    * Creates a new LimelightAimCommand.
+   * @param drivetrain Drivetrain object
+   * @param limelight Limelight object
    */
   public LimelightAimCommand(Drivetrain drivetrain, Limelight limelight) {
     this.drivetrain = drivetrain;

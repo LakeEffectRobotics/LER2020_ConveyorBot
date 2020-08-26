@@ -7,43 +7,74 @@
 
 package ler.robot.subsystems;
 
-import ler.robot.RobotMap;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+/**
+ * Subsystem representing the intake arm and rollers.
+ */
 public class Intake extends SubsystemBase {
   
   
   public static final double ROLLER_SPEED = 0.80;
 
+  TalonSRX roller;
+  DoubleSolenoid arm;
+  
   /**
    * Creates a new Intake.
+   * 
+   * @param roller The motor driving the intake roller
+   * @param arm The DoubleSolenoid controlling arm deployment
    */
-  public Intake() {
-
+  public Intake(TalonSRX roller, DoubleSolenoid arm) {
+    this.roller = roller;
+    this.arm = arm;
   }
 
+  /**
+   * Drive the intake roller.
+   *
+   * @param speed The % to drive at
+   */
   public void startIntake(double speed){
-    RobotMap.intakeRoller.set(ControlMode.PercentOutput, speed );
+    roller.set(ControlMode.PercentOutput, speed);
 
   }
+
+  /**
+   * Stop the intake roller.
+   */
   public void stopIntake(){
-    RobotMap.intakeRoller.set(ControlMode.PercentOutput, 0);
+    roller.set(ControlMode.PercentOutput, 0);
 
   }
 
+  /**
+   * Deploy intake.
+   */
   public void extendIntake(){
-    RobotMap.intakeArm.set(Value.kForward);
+    arm.set(Value.kForward);
   }
 
+  /**
+   * Retract intake.
+   */
   public void retractIntake(){
-    RobotMap.intakeArm.set(Value.kReverse);
+    arm.set(Value.kReverse);
   }
 
+  /**
+   * Get if the intake is deployed.
+   * 
+   * @return <code>true</code> if the intake is deployed
+   */
   public boolean isExtended(){
-    if(RobotMap.intakeArm.get() == Value.kForward){
+    if(arm.get() == Value.kForward){
       return true;
     }
     return false;

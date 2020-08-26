@@ -10,10 +10,6 @@ package ler.robot.subsystems;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.vision.VisionThread;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import ler.robot.vision.GripPipeline;
 
 import org.opencv.core.Rect;
@@ -22,6 +18,9 @@ import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * Subsystem to represent webcam used to track balls for intaking.
+ */
 public class Webcam extends SubsystemBase {
 
   private static final int WIDTH = 320;
@@ -44,15 +43,14 @@ public class Webcam extends SubsystemBase {
     //camera.setFPS(30);
 
     visionThread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-      if (!pipeline.findContoursOutput().isEmpty()){
+      if(!pipeline.findContoursOutput().isEmpty()){
         Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
         synchronized(imgLock){
           posX = r.x + (r.width / 2);
 
           if(posX == r.width / 2){
             System.out.println("MIDDLE");
-          }
-          else{
+          } else {
             //turn robot
           }
         }
@@ -65,9 +63,14 @@ public class Webcam extends SubsystemBase {
     visionThread.start();
   }
 
+  /**
+   * Get the X offset from the ball.
+   * @return X offset in pixels.
+   */
   public double getX(){
     return (WIDTH/2) - posX;
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

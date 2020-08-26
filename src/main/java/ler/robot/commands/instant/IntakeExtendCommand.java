@@ -11,11 +11,16 @@ import ler.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+/**
+ * Extend the intake.
+ */
 public class IntakeExtendCommand extends InstantCommand {
   Intake intake;
+
+  /**
+   * Extend the intake.
+   * @param intake Intake subsystem
+   */
   public IntakeExtendCommand(Intake intake) {
     this.intake = intake;
     addRequirements(intake);
@@ -27,7 +32,7 @@ public class IntakeExtendCommand extends InstantCommand {
   public void initialize() {
     if(intake.isExtended()){
       intake.retractIntake();
-    }else{
+    } else {
       intake.extendIntake();
     }
   }

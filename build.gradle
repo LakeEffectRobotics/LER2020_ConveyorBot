@@ -1,6 +1,30 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.2.2"
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion = '8.33'
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    sourceSets = []
+}
+task Checkstyle(type: Checkstyle) {
+    dependsOn 'checkstyleMain'
+    source 'src/main/*'
+    // empty classpath
+    classpath = rootProject.files()
+
+    reports {
+        xml.enabled false
+        html.enabled false
+    }
+}
+
+repositories {
+    maven {
+        url "http://gregk.ca/FRCMocks/"
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -52,7 +76,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
+    implementation 'ca.gregk:frcmocks:+'
     testImplementation 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.+'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
@@ -65,4 +91,44 @@ dependencies {
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+test {
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
+task subsystemTest( type: Test ) {
+    include 'ler/robot/subsystems/**'
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
+task commandTest( type: Test ) {
+    include 'ler/robot/commands/**'
+    exclude 'ler/robot/commands/autonomous/**'
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
+task autoTest( type:Test ) {
+    include 'ler/robot/commands/autonomous/**'
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
+}
+
+task simTest( type: Test ) {
+    include 'ler/robot/*'
+	testLogging {
+		events "failed"
+		exceptionFormat "full"
+	}
 }

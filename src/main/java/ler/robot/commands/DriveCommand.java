@@ -26,13 +26,13 @@ public class DriveCommand extends CommandBase {
   private final Drivetrain drivetrain;
   //private final Gyro gyro;
 
+  static final double DEADBAND = 0.025;
+  static final double STRAIGHT_DIFF = 0.25;
 
   /**
    * Creates a new DefaultDrive.
    *
    * @param subsystem The drive subsystem this command wil run on.
-   * @param forward The control input for driving forwards/backwards
-   * @param rotation The control input for turning
    */
   public DriveCommand(Drivetrain subsystem) {
     drivetrain = subsystem;
@@ -47,10 +47,10 @@ public class DriveCommand extends CommandBase {
     //Using the logistic function for adapted speed
     double left;
     double right;
-    if(RobotMap.XBOX_DRIVE){
+    if(RobotMap.xboxDrive){
       left = Robot.oi.driverXboxController.getY(Hand.kLeft);
       right = Robot.oi.driverXboxController.getY(Hand.kRight);
-    }else{
+    } else {
       left = Robot.oi.leftDriverJoystick.getY();
       right = Robot.oi.rightDriverJoystick.getY();
     }
@@ -61,7 +61,7 @@ public class DriveCommand extends CommandBase {
     double average = (leftSpeed + rightSpeed)/2;
 
     // if sticks are close and speed reasonable, go straight
-    if (Math.abs(leftSpeed - rightSpeed) < 0.025 && Math.abs(average) > 0.25) {
+    if(Math.abs(leftSpeed - rightSpeed) < DEADBAND && Math.abs(average) > STRAIGHT_DIFF){
       leftSpeed = average;
       rightSpeed = average;
     }

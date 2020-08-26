@@ -24,10 +24,16 @@ import ler.robot.subsystems.Shooter;
  * declared globally (i.e. public static).  Do not put anything functional in this class.
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * constants are needed, to reduce verbosity.</p>
  */
 public final class RobotMap {
-  public static boolean XBOX_DRIVE = false;
+  public static boolean xboxDrive = false;
+  static final double CONVERSION_FACTOR = 0.6;
+  static final double RAMP_RATE = 0.2;
+
+  /**
+   * Constants used for CAN loop elements.
+   */
   public static final class CANConstants {
 
     public static final int LEFT_DRIVE_SPARK_1 = 2;
@@ -51,6 +57,9 @@ public final class RobotMap {
   
   }
 
+  /**
+   * Constants used for solenoids attached to the PCM.
+   */
   public static final class SOLENOIDConstants {
     
     public static final int CONVEYOR_DOWN = 0;
@@ -63,6 +72,9 @@ public final class RobotMap {
     public static final int CLIMBER_UP = 5;
   }
 
+  /**
+   * Constants used to map OI controls.
+   */
   public static final class OIConstants {
     public static final int DRIVER_XBOX_CONTROLLER = 0;
 
@@ -104,6 +116,10 @@ public final class RobotMap {
   }
 
 
+  /* 
+    CHECKSTYLE OFF: ConstantNameCheck
+    Motor controllers are an exception to naming conventions, so checkstyle must be disabled for this block
+  */
   // The motors on the left side of the drive.
   public static final CANSparkMax leftDriveSpark1 = new CANSparkMax(CANConstants.LEFT_DRIVE_SPARK_1, MotorType.kBrushless);
   public static final CANSparkMax leftDriveSpark2 = new CANSparkMax(CANConstants.LEFT_DRIVE_SPARK_2, MotorType.kBrushless);
@@ -132,25 +148,27 @@ public final class RobotMap {
   
 
   // Climber control
-  public static final TalonFX climbingMech = new TalonFX(CANConstants.CLIMBER_TALON);
+  public static final TalonFX climberFalcon = new TalonFX(CANConstants.CLIMBER_TALON);
   public static final DoubleSolenoid climberPiston = new DoubleSolenoid(SOLENOIDConstants.CLIMBER_DOWN, SOLENOIDConstants.CLIMBER_UP);
 
   // Gyro
   public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  /* CHECKSTYLE ON: ConstantNameCheck */
 
 
-
+  /** Initialize robot systems.*/
   public static void init(){
     gyro.calibrate();
 
-    XBOX_DRIVE = SmartDashboard.getBoolean("xbox drive", XBOX_DRIVE);
+    xboxDrive = SmartDashboard.getBoolean("xbox drive", xboxDrive);
 
-    leftDriveSpark1.getEncoder().setPositionConversionFactor(0.6*Math.PI);
-    leftDriveSpark2.getEncoder().setPositionConversionFactor(0.6*Math.PI);
-    leftDriveSpark3.getEncoder().setPositionConversionFactor(0.6*Math.PI);
-    rightDriveSpark1.getEncoder().setPositionConversionFactor(0.6*Math.PI);
-    rightDriveSpark2.getEncoder().setPositionConversionFactor(0.6*Math.PI);
-    rightDriveSpark3.getEncoder().setPositionConversionFactor(0.6*Math.PI);
+
+    leftDriveSpark1.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
+    leftDriveSpark2.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
+    leftDriveSpark3.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
+    rightDriveSpark1.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
+    rightDriveSpark2.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
+    rightDriveSpark3.getEncoder().setPositionConversionFactor(CONVERSION_FACTOR*Math.PI);
 
     // leftDriveSpark1.getEncoder().
 
@@ -160,8 +178,8 @@ public final class RobotMap {
     leftDriveSpark1.setInverted(false);
     rightDriveSpark1.setInverted(true);
 
-    leftDriveSpark1.setOpenLoopRampRate(0.2);
-    rightDriveSpark1.setOpenLoopRampRate(0.2);
+    leftDriveSpark1.setOpenLoopRampRate(RAMP_RATE);
+    rightDriveSpark1.setOpenLoopRampRate(RAMP_RATE);
 
     rightDriveSpark2.follow(rightDriveSpark1);
     rightDriveSpark3.follow(rightDriveSpark1);

@@ -12,12 +12,23 @@ import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Limelight;
 import ler.robot.subsystems.Shooter;
 
+/**
+ * Command to drive conveyor and shooter.
+ */
 public class ShootCommand extends CommandBase {
   private Shooter shooter;
   private Conveyor conveyor;
   private Limelight limelight;
+
+  static final double CLOSENESS = 250;
+  static final double CONVEYOR_SPEED = 0.6;
+
   /**
    * Creates a new ShootCommand.
+   * 
+   * @param shooter The shooter subsystem
+   * @param conveyor The conveyor subsystem
+   * @param limelight The limelight subsystem
    */
   public ShootCommand(Shooter shooter, Conveyor conveyor, Limelight limelight) {
     this.shooter = shooter;
@@ -41,8 +52,6 @@ public class ShootCommand extends CommandBase {
   public void execute() {
     //configure, maybe add closeness to robotMap or something
     double speed = limelight.getSpeed();
-    double closeness = 250;
-    double conveyorSpeed = 0.6;
 
     System.out.println("TopLeft: " + shooter.getTopLeftSparkSpeed() + "\t" + Shooter.SHOOTER_TOP_TARGET_SPEED + "\t" + (shooter.getTopLeftSparkSpeed()-Shooter.SHOOTER_TOP_TARGET_SPEED));
     System.out.println("TopRight: " + shooter.getTopRightSparkSpeed() + "\t" + Shooter.SHOOTER_TOP_TARGET_SPEED + "\t" + (shooter.getTopRightSparkSpeed()-Shooter.SHOOTER_TOP_TARGET_SPEED));
@@ -56,13 +65,12 @@ public class ShootCommand extends CommandBase {
        Math.abs(shooter.getBottomSparkSpeed()- Shooter.SHOOTER_BOTTOM_TARGET_SPEED)< closeness &&
        System.currentTimeMillis()>= shooter.spoolTime) {
          */
-    if(Math.abs(shooter.getAverageSparksSpeed() - Shooter.SHOOTER_TOP_TARGET_SPEED)< closeness && 
+    if(Math.abs(shooter.getAverageSparksSpeed() - Shooter.SHOOTER_TOP_TARGET_SPEED)< CLOSENESS && 
       System.currentTimeMillis()>= shooter.spoolTime) {
 
-      conveyor.setConveyorSpeed(conveyorSpeed);
+      conveyor.setConveyorSpeed(CONVEYOR_SPEED);
 
-    } 
-    else {
+    } else {
       conveyor.setConveyorSpeed(0);
     
     }

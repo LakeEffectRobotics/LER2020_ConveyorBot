@@ -7,8 +7,6 @@
 
 package ler.robot;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,12 +31,12 @@ import ler.robot.subsystems.Climber;
 public class RobotContainer {
   // The robot's subsystems
   public final Gyro gyro = new Gyro();
-  public final Shooter shooter = new Shooter();
-  public final Intake intake = new Intake();
-  public final Conveyor conveyor = new Conveyor();
-  public final Drivetrain drivetrain = new Drivetrain();
+  public final Shooter shooter = new Shooter(RobotMap.shooterTopLeftSpark, RobotMap.shooterTopRightSpark, RobotMap.shooterBottomRightSpark, RobotMap.shooterBottomLeftSpark);
+  public final Intake intake = new Intake(RobotMap.intakeRoller, RobotMap.intakeArm);
+  public final Conveyor conveyor = new Conveyor(RobotMap.conveyorMotor, RobotMap.angleElevation, RobotMap.conveyorValve);
+  public final Drivetrain drivetrain = new Drivetrain(RobotMap.leftDriveSpark1, RobotMap.rightDriveSpark1);
   public final Limelight limelight = new Limelight();
-  public final Climber climber = new Climber();
+  public final Climber climber = new Climber(RobotMap.climberPiston, RobotMap.climberFalcon);
 
   final Webcam webcam = new Webcam();
 

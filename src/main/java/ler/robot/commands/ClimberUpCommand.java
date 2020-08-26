@@ -10,16 +10,22 @@ package ler.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import ler.robot.subsystems.Climber;
 
+/**
+ * Extend climber.
+ */
 public class ClimberUpCommand extends CommandBase {
   Climber climber;
+
   /**
-   * Creates a new invertControlsCommand.
+   * Creates a new ClimberUpCommand.
+   * 
+   * @param climber The climber subsystem
    */
   public ClimberUpCommand(Climber climber) {
     this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
+ 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

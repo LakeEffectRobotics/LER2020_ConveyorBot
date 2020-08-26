@@ -11,9 +11,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import ler.robot.subsystems.Drivetrain;
 
+/**
+ * Halve the driving speed.
+ */
 public class HalveDriveSpeed extends CommandBase {
   private final Drivetrain drivetrain;
 
+  /**
+   * Halve the drive speed.
+   * 
+   * @param drive Drivetrain object
+   */
   public HalveDriveSpeed(Drivetrain drive) {
     drivetrain = drive;
   }

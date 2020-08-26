@@ -16,7 +16,7 @@ import ler.robot.commands.instant.*;
 
 
 /**
- * Operator Interface, used to map buttons with the controllers
+ * Operator Interface, used to map buttons with the controllers.
  */
 public class OI {
     // The driver uses two joysticks, operator uses one controller
@@ -64,6 +64,8 @@ public class OI {
      * created by instantiating a {@link GenericHID} or one of its subclasses
      * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     * 
+     * @param container The {@link RobotContainer} used to reference subsystems
      */
     public void init(RobotContainer container){
         /*
@@ -74,7 +76,7 @@ public class OI {
          * .whenPressed(new ReleaseHatch(m_hatchSubsystem));
          */
         // While holding the shoulder button, drive at half speed
-        if(RobotMap.XBOX_DRIVE){
+        if(RobotMap.xboxDrive){
             halfSpeedButton = xboxHalfSpeedButton;
             invertControlsButton = xboxInvertControlsButton;
             limelightAimButton = xboxLimelightAimButton;

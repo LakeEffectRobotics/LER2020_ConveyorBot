@@ -10,12 +10,15 @@ package ler.robot.commands.autonomous;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import ler.robot.RobotContainer;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+/**
+ * Command used to test new wpilib features
+ */
 public class TestAutoCommand extends SequentialCommandGroup {
+
   /**
    * Creates a new TestAutoCommand.
+   * 
+   * @param container The {@link RobotContainer} used to get subsystems
    */
   public TestAutoCommand(RobotContainer container) {
     // Add your commands in the super() call, e.g.

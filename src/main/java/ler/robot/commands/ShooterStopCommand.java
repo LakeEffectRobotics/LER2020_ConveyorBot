@@ -7,18 +7,22 @@
 
 package ler.robot.commands;
 
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import ler.robot.RobotMap;
 import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Shooter;
 
+/**
+ * Stop the shooter wheels.
+ */
 public class ShooterStopCommand extends CommandBase {
   private Shooter shooter;
   private Conveyor conveyor;
+
   /**
    * Creates a new ShooterStopCommand.
+   * @param shooter Shooter subsystem
+   * @param conveyor Conveyor subsytem
    */
   public ShooterStopCommand(Shooter shooter, Conveyor conveyor) {
     // Use addRequirements() here to declare subsystem dependencies.

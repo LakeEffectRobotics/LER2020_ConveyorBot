@@ -12,6 +12,9 @@ import ler.robot.Tools;
 import ler.robot.subsystems.Drivetrain;
 import ler.robot.subsystems.Gyro;
 
+/**
+ * Command to drive straight.
+ */
 public class AutoDriveStraightCommand extends CommandBase {
   Drivetrain drivetrain;
   Gyro gyro;
@@ -25,7 +28,13 @@ public class AutoDriveStraightCommand extends CommandBase {
   
 
   /**
-   * Creates a new IntakeCommand.
+   * Drive straight for a distance.
+   * 
+   * @param d The drivetrain subsystem
+   * @param g The gyro subsystem
+   * @param timeOut Command will stop after this many milliseconds (CURRENTLY DISABLED)
+   * @param speed The speed in % the drivetrain will use
+   * @param target The target distance in encoder units
    */
   public AutoDriveStraightCommand(Drivetrain d, Gyro g, int timeOut, double speed, int target) {
     this.drivetrain = d;

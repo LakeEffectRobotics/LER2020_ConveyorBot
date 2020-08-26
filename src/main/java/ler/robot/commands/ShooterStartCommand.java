@@ -7,19 +7,22 @@
 
 package ler.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import ler.robot.RobotMap;
 import ler.robot.subsystems.Limelight;
 import ler.robot.subsystems.Shooter;
 
+/**
+ * Start the shooter.
+ */
 public class ShooterStartCommand extends CommandBase {
   private Shooter shooter;
   private Limelight limelight;
 
 
-  /*
+  /**
    * Creates a new ShooterStartCommand.
+   * @param shooter Shooter subsystem
+   * @param limelight Limelight subsystem
    */
   public ShooterStartCommand(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;
@@ -41,6 +44,7 @@ public class ShooterStartCommand extends CommandBase {
     //shooter.setSpecificShootersSpeed(shooter.getVelocityFromLimelight(limelight.getSpeed()));
     shooter.setSpecificShootersSpeed(Shooter.SHOOTER_TARGET_SPEED);
   }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

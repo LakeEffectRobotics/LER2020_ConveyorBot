@@ -11,12 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Intake;
 
+/**
+ * Inverse just the intake.
+ */
 public class InverseIntakeCommand extends CommandBase {
   Intake intake;
   Conveyor conveyor;
 
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new InverseIntakeCommand.
+   * @param intake Intake object
    */
   public InverseIntakeCommand(Intake intake) {
     this.intake = intake;

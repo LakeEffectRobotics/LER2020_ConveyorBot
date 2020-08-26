@@ -13,12 +13,19 @@ import ler.robot.Tools;
 import ler.robot.subsystems.Drivetrain;
 import ler.robot.subsystems.Gyro;
 
+/**
+ * Command to activate gyro-controlled driving.
+ */
 public class GyroDriveCommand extends CommandBase {
   
   Drivetrain drivetrain;
   Gyro gyro;
+
   /**
-   * Creates a new GyroDriveComman.
+   * Creates a new GyroDriveCommand.
+   * 
+   * @param d The drivetrain subsystem
+   * @param g The gyro subsystem
    */
   public GyroDriveCommand(Drivetrain d, Gyro g) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,9 +50,9 @@ public class GyroDriveCommand extends CommandBase {
     l = Math.abs(l) > Math.abs(r) ? l : r;
     r = l;
     	
-    double[] straight_gyro_output = gyro.getStraightOutput(l, r);
+    double[] straightGyroOutput = gyro.getStraightOutput(l, r);
     
-    drivetrain.tankDrive(straight_gyro_output[0], straight_gyro_output[1]);
+    drivetrain.tankDrive(straightGyroOutput[0], straightGyroOutput[1]);
   }
 
   // Called once the command ends or is interrupted.

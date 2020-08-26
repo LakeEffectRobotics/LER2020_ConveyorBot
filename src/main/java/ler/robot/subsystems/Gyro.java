@@ -7,12 +7,18 @@
 
 package ler.robot.subsystems;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import ler.robot.RobotMap;
 
+/**
+ * Subsystem to represent the gyroscope.
+ */
 public class Gyro extends SubsystemBase {
 
   double setpoint = 0;
+
+  ADXRS450_Gyro gyro;
 
   /**
    * Creates a new Gyro.
@@ -21,41 +27,61 @@ public class Gyro extends SubsystemBase {
 
   }
   
+  /**
+   * Initialize the gyro. This should be called once in robot initialisation
+   */
   public void init(){
-    RobotMap.gyro.calibrate();
+    gyro.calibrate();
   }
 
+  /**
+   * Make getAngle return 0 for current heading.
+   */
   public void zero(){
-    setpoint = RobotMap.gyro.getAngle();
+    setpoint = gyro.getAngle();
   }
 
+  /**
+   * Get the drivetrain output required to hold heading.
+   * @param l The target left output
+   * @param r The target right output
+   * @return A double[] with the required {leftOutput, rightOutput}
+   */
   public double[] getStraightOutput(double l, double r) {
     final double ANGLE_TOLERANCE = 1;
-    double k_p = 0.02;
-    double l_out = l;
-    double r_out = r;
-    double current_angle = getAngle();
+    final double kP = 0.02;
+    double lOut = l;
+    double rOut = r;
+    double currentAngle = getAngle();
     
     
-    if (Math.abs(current_angle) > ANGLE_TOLERANCE) {	// adjust values to compensate for turning drift	
-      double modifier = current_angle * k_p;	// make amount of correction proportional to angle
-      l_out += modifier;
-      r_out -= modifier;
+    if(Math.abs(currentAngle) > ANGLE_TOLERANCE){	// adjust values to compensate for turning drift	
+      double modifier = currentAngle * kP;	// make amount of correction proportional to angle
+      lOut += modifier;
+      rOut -= modifier;
     }
     
-    l_out = l_out > 1 ? 1 : l_out;	// ensure values are within -1 to 1 range
-    l_out = l_out < -1 ? -1 : l_out;
-    r_out = r_out > 1 ? 1 : r_out;
-    r_out = r_out < -1 ? -1 : r_out;
+    lOut = lOut > 1 ? 1 : lOut;	// ensure values are within -1 to 1 range
+    lOut = lOut < -1 ? -1 : lOut;
+    rOut = rOut > 1 ? 1 : rOut;
+    rOut = rOut < -1 ? -1 : rOut;
     
-    return new double[] {l_out, r_out};
+    return new double[] {lOut, rOut};
   }
 
+  /**
+   * Get the current heading of the robot.
+   * @return Current heading, relative to init or last zero
+   */
   public double getAngle(){
-    return setpoint - RobotMap.gyro.getAngle();
+    return setpoint - gyro.getAngle();
   }
 
+  /**
+   * Get the current heading of the robot, relative to init.
+   * @return Current heading, relative to init
+   */
   public double getAbsoluteAngle() {
-    return -RobotMap.gyro.getAngle();
+    return -gyro.getAngle();
   }
 }

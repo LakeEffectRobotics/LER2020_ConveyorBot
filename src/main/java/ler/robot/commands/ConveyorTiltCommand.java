@@ -13,10 +13,15 @@ import ler.robot.Robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Tilt the conveyor for shooting.
+ */
 public class ConveyorTiltCommand extends CommandBase {
   Conveyor conveyor;
+
   /**
    * Creates a new ConveyorTiltCommand.
+   * @param conveyor Conveyor subsystem
    */
   public ConveyorTiltCommand(Conveyor conveyor) {
     this.conveyor = conveyor;

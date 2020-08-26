@@ -12,9 +12,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+//TODO: Properly document various functions
+/**
+ * Subsystem to represent the Limelight camera.
+ */
 public class Limelight extends SubsystemBase {
   private NetworkTable table;
   private NetworkTable table3d;
+
   /**
    * Creates a new Limelight.
    */

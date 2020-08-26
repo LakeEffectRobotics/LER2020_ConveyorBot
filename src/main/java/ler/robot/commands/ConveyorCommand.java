@@ -11,12 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import ler.robot.subsystems.Conveyor;
 import ler.robot.subsystems.Intake;
 
+/**
+ * Command to drive the conveyor.
+ */
 public class ConveyorCommand extends CommandBase {
   Intake intake;
   Conveyor conveyor;
 
   /**
    * Creates a new IntakeCommand.
+   * @param conveyor The conveyor subsystem
    */
   public ConveyorCommand(Conveyor conveyor) {
     this.conveyor = conveyor;

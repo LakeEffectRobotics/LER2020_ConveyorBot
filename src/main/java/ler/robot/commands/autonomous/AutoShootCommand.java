@@ -14,14 +14,18 @@ import ler.robot.commands.ShootCommand;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+/**
+ * Autonomously aim at the goal and shoot.
+ */
 public class AutoShootCommand extends ParallelCommandGroup {
   long timeOut;
   long startTime;
+
   /**
    * Creates a new AutoShootCommand.
+   * 
+   * @param container The {@link RobotContainer} to get subsystems from
+   * @param timeOut Command will stop after this many milliseconds
    */
   public AutoShootCommand(RobotContainer container, long timeOut) {
     super();
